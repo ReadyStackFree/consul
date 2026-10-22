@@ -18,7 +18,7 @@ import (
 	"github.com/armon/go-metrics"
 	"github.com/armon/go-metrics/prometheus"
 	"github.com/armon/go-radix"
-	"github.com/coredns/coredns/plugin/pkg/dnsutil"
+	"github.com/hashicorp/consul/agent/dnsutil"
 	"github.com/hashicorp/go-hclog"
 	"github.com/miekg/dns"
 
