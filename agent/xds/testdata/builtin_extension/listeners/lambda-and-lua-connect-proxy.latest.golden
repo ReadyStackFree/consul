@@ -63,6 +63,8 @@
                     "upgradeType": "websocket"
                   }
                 ],
+                "normalizePath": true,
+                "mergeSlashes": true,
                 "stripAnyHostPort": true
               }
             }
@@ -249,7 +251,9 @@
                   {
                     "upgradeType": "websocket"
                   }
-                ]
+                ],
+                "normalizePath": true,
+                "mergeSlashes": true
               }
             }
           ],

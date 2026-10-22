@@ -111,7 +111,9 @@
                   {
                     "upgradeType": "websocket"
                   }
-                ]
+                ],
+                "normalizePath": true,
+                "mergeSlashes": true
               }
             }
           ],

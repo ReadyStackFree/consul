@@ -68,7 +68,9 @@
                   {
                     "upgradeType": "websocket"
                   }
-                ]
+                ],
+                "normalizePath": true,
+                "mergeSlashes": true
               }
             }
           ]
@@ -105,7 +107,9 @@
                   {
                     "upgradeType": "websocket"
                   }
-                ]
+                ],
+                "normalizePath": true,
+                "mergeSlashes": true
               }
             }
           ]

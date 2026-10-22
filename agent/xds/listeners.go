@@ -2444,6 +2444,11 @@ func makeHTTPFilter(opts listenerFilterOpts) (*envoy_listener_v3.Filter, error) 
 		AccessLog:  accessLogs,
 		StatPrefix: makeStatPrefix(opts.statPrefix, opts.filterName),
 		CodecType:  envoy_http_v3.HttpConnectionManager_AUTO,
+		// CVE-2024-10005 (HCSEC-2024-22) backport (ReadyStack): normalize request
+		// paths before route/RBAC eval so encoded or duplicate-slash paths cannot
+		// bypass path-based L7 intentions.
+		NormalizePath: &wrapperspb.BoolValue{Value: true},
+		MergeSlashes:  true,
 		HttpFilters: []*envoy_http_v3.HttpFilter{
 			router,
 		},

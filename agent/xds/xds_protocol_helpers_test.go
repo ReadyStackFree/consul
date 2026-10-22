@@ -674,6 +674,9 @@ func makeTestListener(t *testing.T, snap *proxycfg.ConfigSnapshot, fixtureName s
 								RouteConfig: makeTestRoute(t, "http2:db:inline"),
 							},
 							StatPrefix: "upstream.db.default.default.dc1",
+							// CVE-2024-10005 backport (ReadyStack): every HTTP connection manager normalizes paths.
+							NormalizePath: &wrapperspb.BoolValue{Value: true},
+							MergeSlashes:  true,
 							Tracing: &envoy_http_v3.HttpConnectionManager_Tracing{
 								RandomSampling: &envoy_type_v3.Percent{Value: 0},
 							},
@@ -705,6 +708,9 @@ func makeTestListener(t *testing.T, snap *proxycfg.ConfigSnapshot, fixtureName s
 								},
 							},
 							StatPrefix: "upstream.db.default.default.dc1",
+							// CVE-2024-10005 backport (ReadyStack): every HTTP connection manager normalizes paths.
+							NormalizePath: &wrapperspb.BoolValue{Value: true},
+							MergeSlashes:  true,
 							Tracing: &envoy_http_v3.HttpConnectionManager_Tracing{
 								RandomSampling: &envoy_type_v3.Percent{Value: 0},
 							},
@@ -736,6 +742,9 @@ func makeTestListener(t *testing.T, snap *proxycfg.ConfigSnapshot, fixtureName s
 								},
 							},
 							StatPrefix: "upstream.db.default.default.dc1",
+							// CVE-2024-10005 backport (ReadyStack): every HTTP connection manager normalizes paths.
+							NormalizePath: &wrapperspb.BoolValue{Value: true},
+							MergeSlashes:  true,
 							Tracing: &envoy_http_v3.HttpConnectionManager_Tracing{
 								RandomSampling: &envoy_type_v3.Percent{Value: 0},
 							},
