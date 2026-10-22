@@ -1178,7 +1178,7 @@ func anyPermission() *envoy_rbac_v3.Permission {
 }
 
 func convertPermission(perm *structs.IntentionPermission) *envoy_rbac_v3.Permission {
-	// NOTE: this does not do anything with perm.Action
+	// NOTE: perm.Action is used only to harden header rules (CVE-2024-10006 backport).
 	if perm.HTTP == nil {
 		return anyPermission()
 	}
@@ -1230,6 +1230,9 @@ func convertPermission(perm *structs.IntentionPermission) *envoy_rbac_v3.Permiss
 		})
 	}
 
+	// CVE-2024-10006 (HCSEC-2024-23) backport (ReadyStack): header rules fail closed on
+	// repeated headers and on letter case; see rbac_header_hardening.go.
+	isDeny := intentionActionFromString(perm.Action) == intentionActionDeny
 	for _, hdr := range perm.HTTP.Header {
 		eh := &envoy_route_v3.HeaderMatcher{
 			Name: hdr.Name,
@@ -1264,11 +1267,7 @@ func convertPermission(perm *structs.IntentionPermission) *envoy_rbac_v3.Permiss
 			eh.InvertMatch = true
 		}
 
-		parts = append(parts, &envoy_rbac_v3.Permission{
-			Rule: &envoy_rbac_v3.Permission_Header{
-				Header: eh,
-			},
-		})
+		parts = append(parts, hardenHeaderPermission(hdr, eh, isDeny))
 	}
 
 	if len(perm.HTTP.Methods) > 0 {
